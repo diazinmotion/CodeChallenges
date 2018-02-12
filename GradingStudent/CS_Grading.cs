@@ -18,11 +18,10 @@ namespace GradingStudent
 {
     class Program
     {
-
         static int schoolPG = 40; // Passing Grade
 
         static void Main(string[] args){
-            int jumlah = 0, nilai, nilaiTerisi = 0;
+            int jumlah = 0, nilai;
 
             jumlah = inputanAngka("Jumlah Siswa", 0, 100);
 
@@ -34,7 +33,6 @@ namespace GradingStudent
 
                     if(nilai >= 0) {
                         nilaiInputan[(i - 1)] = nilai;
-                        nilaiTerisi++;
                     }
                 }
                 
@@ -51,9 +49,6 @@ namespace GradingStudent
 
                     Console.WriteLine("Siswa ke-{0}: {1} --> {2} ({3})", (index + 1), nilaiInputan[index], hasilPembulatan[index], status);
                 }
-
-                //Console.WriteLine(String.Join(", ", hasilPembulatan));
-
             }
 
             Console.Write("\nTerminating Application...");

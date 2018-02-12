@@ -1,84 +1,77 @@
 <?php
-    // Link of challange: https://www.hackerrank.com/challenges/grading/problem
-    
-	$nilai = [56, 67, 38, 33];
 
-	function multiplikasi($batas_bawah = 0, $batas_atas = 100, $faktorial = 0){
-		
-		$result = null;
+    /**
+	 * Ini merupakan aplikasi sample dari challange hackerrank
+	 * dengan judul Grading Students oleh nabila_ahmed.
+	 *
+	 * @author  Dimas
+	 * @version 1.0
+	 * @since   2018-02-12
+	 * @see     https://www.hackerrank.com/challenges/grading/problem    
+	*/
+	namespace GradingStudent;
 
-		if($faktorial <= 0){
-			$result = false;
-		}else{
-			// hasil sementara
-			$temp_hasil = [];
+	class MainApplication {
 
-			for($i = $batas_bawah; $i <= $batas_atas; $i += $faktorial){
-				// masukkan ke dalam hasil sementara
-				array_push($temp_hasil, $i);
-			}
+		private static $schoolPG 	= 40;
+		private static $inputanUser	= [56, 67, 38, 33];
 
-			// masukkan ke dalam variabel akhir
-			$result = $temp_hasil;
-		}
+		public function runningApp(){
 
-		return $result;
-	}
+			// dapatkan nilai akhir siswa melalui function yang tersedia
+			$nilaiAkhir = self::pembulatan(self::$schoolPG, 5, 100, self::$inputanUser);
 
-	function pembulatan($nilai = []){
-		
-		$result = null;
-
-		if(empty($nilai) && ! is_array($nilai)){
-			$result = false;
-		}else{
-			$temp_hasil = [];
-
-			// dapatkan batas-batas nilai pembulatan
-			$batas_pembulatan = multiplikasi(40, 100, 5);
-
-			// looping nilai yang diinput user
-			foreach($nilai as $row){
-				// yang lebih besar dari 40
-				if($row >= 37){
-					// bandingkan antara nilai yg dilooping dengan batas pembulatan
-					foreach($batas_pembulatan as $row_bulatan){
-						if($row_bulatan > $row){
-							// bila jumlah pengurangan nilai pembulatan dan batas pembulatan terdekat <= 3
-							if($row_bulatan - $row <= 3){
-								array_push($temp_hasil, $row_bulatan);
-							}else{
-								array_push($temp_hasil, $row);
-							}
-							
-							break;
-						}	
-					}
-				}else{
-					// nilai rendah < 40 dan tidak akan mencapai 40 setelah pembulatan.
-					// tidak perlu di rounding.
-					array_push($temp_hasil, $row);
+			// tampilkan hasil nilai akhir siswa
+			print("Final Score: <br/>");
+			foreach(self::$inputanUser as $key => $nilai){
+				if(isset($nilaiAkhir[$key])){
+					printf("%d. Siswa ke-%d: %d --> %d<br/>", ($key + 1), ($key + 1), $nilai, $nilaiAkhir[$key]);
 				}
 			}
 
-			$result = $temp_hasil;
 		}
 
-		return $result;
-	}
+		private static function pembulatan($passingGrade, $roundingStepValue, $maxScore, $studentGrade){
+			$nilaiAkhir 		= [];
+			$daftarPembulatan 	= [];
 
-	$nilai_tampil 	= [];
-	$nilai_akhir 	= pembulatan($nilai);
+			// nilai-nilai batas hasil pembulatan dari passingGrade ke maxScore
+            for ($i = $passingGrade; $i <= $maxScore; $i += $roundingStepValue) {
+                array_push($daftarPembulatan, $i);
+			}
+			
+			foreach ($studentGrade as $grade) {
+				// nilai yang kurang dari 3 dari passing grade bisa dibulatkan 
+				// dan dianggap lulus. kurang dari passing grade tidak perlu di bulatkan karena tidak lulus.
+				if($grade >= ($passingGrade - 3)) {
+					// bandingkan nilai dengan daftar pembulatan nilai
+					foreach($daftarPembulatan as $nilaiBulat) {
+						// bandingkan nilai dengan nilai pembulatan yang lebih besar dari nilai siswa, dan
+						// bila jumlah pengurangan nilai pembulatan dan batas pembulatan terdekat <= 3
+						if ($nilaiBulat >= $grade) {
+							if (($nilaiBulat - $grade) <= 3) {
+								array_push($nilaiAkhir, $nilaiBulat);
+							} else {
+								array_push($nilaiAkhir, $grade);
+							}
+							break;
+						}
+					}
+				} else {
+					// nilai rendah < 40 dan tidak akan mencapai 40 setelah pembulatan.
+					// tidak perlu di rounding.
+					array_push($nilaiAkhir, $grade);
+				}
+			}
 
-	// execute hasil
-	echo "Nilai Awal: <br/>";
-	echo implode(", ", $nilai);
-	echo "<br/><br/>Nilai Akhir:<br/>";
-	foreach($nilai as $key => $row){
-		if(isset($nilai_akhir[$key])){
-			$no = ($key+1);
-			array_push($nilai_tampil, "{$no}. {$row} -> {$nilai_akhir[$key]}<br/>");
+			return $nilaiAkhir;
+		}
+
+		public static function tes(){
+			echo "AAA";
 		}
 	}
-	echo implode("", $nilai_tampil);
+
+	// Running aplikasi
+	\GradingStudent\MainApplication::runningApp();
 ?>
