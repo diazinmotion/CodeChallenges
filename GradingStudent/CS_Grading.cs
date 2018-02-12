@@ -96,7 +96,7 @@ namespace GradingStudent
             return nilaiAkhir;
         }
 
-        public static int inputanAngka(string message, int minValue = 0, int maxValue = 100) {
+        static int inputanAngka(string message, int minValue = 0, int maxValue = 100) {
             int outputValue = 0;
             string pesanError = null;
             bool isValid = false;
