@@ -4,7 +4,7 @@
 #
 # @author  Dimas
 # @version 1.0
-# @since   2020-10-15
+# @since   2020-10-18
 # @see     https://www.hackerrank.com/challenges/grading/problem    
 
 _passingGrade = 40
